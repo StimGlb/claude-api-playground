@@ -18,7 +18,7 @@ Application de test pour expérimenter l'intégration de l'API Claude d'Anthropi
 
 ### 1. Cloner le repo
 ```bash
-git clone https://github.com/votre-username/claude-api-playground.git
+git clone https://github.com/StimGlb/claude-api-playground.git
 cd claude-api-playground
 ```
 
