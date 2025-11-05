@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://refactored-space-guide-qwwwx7vvvw5h4r9-5173.app.github.dev/',
+        target: 'http://localhost:3001', // ✅ Pointe vers votre serveur Node.js
         changeOrigin: true,
         secure: false
       }
