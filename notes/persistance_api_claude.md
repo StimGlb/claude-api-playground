@@ -1,6 +1,7 @@
 1. Architecture en couches
 // Structure recommandée
 API Routes → Controllers → Services → Repository → Database
+
 2. Couche Repository Pattern
 // userRepository.js
 class UserRepository {
@@ -20,6 +21,7 @@ class UserRepository {
     return await db.users.destroy({ where: { id } });
   }
 }
+
 3. Service Layer
 // userService.js
 class UserService {
@@ -36,6 +38,7 @@ class UserService {
     });
   }
 }
+
 4. Controllers API
 // userController.js
 class UserController {
@@ -52,6 +55,7 @@ class UserController {
     }
   }
 }
+
 5. Configuration base de données
 // database/config.js
 const { Sequelize } = require('sequelize');
