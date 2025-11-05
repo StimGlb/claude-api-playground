@@ -1,4 +1,13 @@
-# Questions pour votre séance de psychanalyse
+Ce texte pour préparer notre prochain entretien.
+
+Trois choses principales de ces derniers temps :
+
+- Je n’ai consacré que trop peu de temps à l’étude de la psychanalyse de Jung ou de la notion de Contre-Transfert qui m’avait pourtant passionnée à l’époque, parmi d’autres, comme en psychosociale (les expériences de L’Appel à la Peur ou encore de la Soummision à l’Autorité de Milgram et al.)
+
+Le seul moyen de me sentir plus jeune est le jeu.
+
+Je commence par faire des choses belles ensuite, je les anihile.
+
 
 ## Approche jungienne
 
