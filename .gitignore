@@ -149,3 +149,6 @@ server/.env
 # Client  
 client/.env
 client/.env.local
+.env
+server/.env
+client/.env
