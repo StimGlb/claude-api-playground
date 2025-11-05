@@ -215,3 +215,20 @@ claude-api-playground/
 ---
 
 **Document généré avec Claude Sonnet 4.5** 🤖
+
+## Bonus :
+
+cd /workspaces/claude-api-playground/client
+
+# Nettoyer le cache npm
+npm cache clean --force
+
+# Supprimer node_modules et package-lock.json
+rm -rf node_modules package-lock.json
+
+# Réinstaller tout
+npm install
+
+# Réessayer l'installation de Tailwind
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
