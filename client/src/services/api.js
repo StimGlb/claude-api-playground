@@ -1,7 +1,7 @@
-const API_URL = 'http://localhost:3001';
+const API_URL = ''; // Vide ! Vite va proxifier
 
 export const sendMessageToClaude = async (message, conversationHistory = []) => {
-  const response = await fetch(`${API_URL}/api/chat`, {
+  const response = await fetch(`/api/chat`, { // Chemin relatif
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
