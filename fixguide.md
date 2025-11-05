@@ -456,4 +456,15 @@ Après : Tailwind CSS v3 + Design moderne ✨
 ✅ Loading states
 ```
 
+cd /workspaces/claude-api-playground
+
+# 1. Récupérer les changements de GitHub
+git pull origin main --rebase
+
+# 2. Si conflit, résoudre puis :
+git rebase --continue
+
+# 3. Push vers GitHub
+git push origin main
+
 _Document généré le 5 novembre 2025 - Debug session avec Claude Sonnet 4.5_
