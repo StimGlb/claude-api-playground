@@ -2,7 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Reset pour une meilleure base */
+/* Force dark mode */
+@layer base {
+  html {
+    @apply bg-gray-900;
+  }
+  
+  body {
+    @apply bg-gray-900 text-gray-100;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -15,31 +25,30 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Scrollbar personnalisée */
+/* Scrollbar dark mode */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #1f2937;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: #4b5563;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #6b7280;
 }
 
-/* Classes utilitaires personnalisées */
 @layer components {
   .chat-bubble-user {
-    @apply bg-blue-500 text-white rounded-2xl rounded-br-sm;
+    @apply bg-blue-600 text-white rounded-2xl rounded-br-sm;
   }
   
   .chat-bubble-assistant {
-    @apply bg-gray-100 text-gray-900 rounded-2xl rounded-bl-sm;
+    @apply bg-gray-800 text-gray-100 rounded-2xl rounded-bl-sm;
   }
 }

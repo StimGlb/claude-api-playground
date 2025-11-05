@@ -51,12 +51,12 @@ function Chat() {
   };
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Sidebar gauche (optionnelle, pour futures features) */}
-      <div className="hidden lg:block w-64 bg-white border-r border-gray-200">
+    <div className="flex h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+      {/* Sidebar gauche */}
+      <div className="hidden lg:block w-64 bg-gray-950 border-r border-gray-800">
         <div className="p-6">
-          <h1 className="text-xl font-bold text-gray-800">Claude Chat</h1>
-          <p className="text-sm text-gray-500 mt-2">Playground API</p>
+          <h1 className="text-xl font-bold text-gray-100">Claude Chat</h1>
+          <p className="text-sm text-gray-400 mt-2">Playground API</p>
         </div>
       </div>
 
@@ -64,20 +64,20 @@ function Chat() {
       <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full">
         
         {/* Header */}
-        <header className="bg-white border-b border-gray-200 shadow-sm">
+        <header className="bg-gray-950 border-b border-gray-800 shadow-sm">
           <div className="px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                 <span className="text-white text-lg">🤖</span>
               </div>
               <div>
-                <h2 className="font-semibold text-gray-800">Claude Assistant</h2>
-                <p className="text-xs text-gray-500">Sonnet 4.5</p>
+                <h2 className="font-semibold text-gray-100">Claude Assistant</h2>
+                <p className="text-xs text-gray-400">Sonnet 4.5</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               {isLoading && (
-                <span className="flex items-center gap-2 text-sm text-gray-500">
+                <span className="flex items-center gap-2 text-sm text-gray-400">
                   <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
                   En train d'écrire...
                 </span>
@@ -87,16 +87,16 @@ function Chat() {
         </header>
 
         {/* Zone de messages */}
-        <div className="flex-1 overflow-y-auto px-4 py-6 space-y-6">
+        <div className="flex-1 overflow-y-auto px-4 py-6 space-y-6 bg-gray-900">
           {messages.length === 0 && (
             <div className="flex flex-col items-center justify-center h-full text-center animate-fade-in">
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center mb-4">
+              <div className="w-20 h-20 bg-gradient-to-br from-blue-900 to-purple-900 rounded-full flex items-center justify-center mb-4">
                 <span className="text-4xl">💬</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+              <h3 className="text-xl font-semibold text-gray-100 mb-2">
                 Commencez une conversation
               </h3>
-              <p className="text-gray-500 max-w-md">
+              <p className="text-gray-400 max-w-md">
                 Posez n'importe quelle question à Claude. Il est là pour vous aider !
               </p>
             </div>
@@ -143,11 +143,11 @@ function Chat() {
               <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center">
                 <span className="text-white text-sm">🤖</span>
               </div>
-              <div className="bg-gray-100 rounded-2xl rounded-bl-sm px-4 py-3">
+              <div className="bg-gray-800 rounded-2xl rounded-bl-sm px-4 py-3">
                 <div className="flex gap-1">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                  <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                  <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                  <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                 </div>
               </div>
             </div>
@@ -156,11 +156,11 @@ function Chat() {
           {/* Message d'erreur */}
           {error && (
             <div className="mx-auto max-w-2xl">
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3">
-                <span className="text-red-500 text-xl">⚠️</span>
+              <div className="bg-red-900/20 border border-red-800 rounded-lg p-4 flex items-start gap-3">
+                <span className="text-red-400 text-xl">⚠️</span>
                 <div>
-                  <p className="text-sm font-medium text-red-800">Une erreur est survenue</p>
-                  <p className="text-sm text-red-600 mt-1">{error}</p>
+                  <p className="text-sm font-medium text-red-300">Une erreur est survenue</p>
+                  <p className="text-sm text-red-400 mt-1">{error}</p>
                 </div>
               </div>
             </div>
@@ -170,7 +170,7 @@ function Chat() {
         </div>
 
         {/* Zone de saisie */}
-        <div className="border-t border-gray-200 bg-white px-4 py-4">
+        <div className="border-t border-gray-800 bg-gray-950 px-4 py-4">
           <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
             <div className="flex gap-3 items-end">
               <div className="flex-1 relative">
@@ -186,9 +186,10 @@ function Chat() {
                   placeholder="Écrivez votre message... (Enter pour envoyer, Shift+Enter pour nouvelle ligne)"
                   disabled={isLoading}
                   rows={1}
-                  className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-2xl 
+                  className="w-full px-4 py-3 pr-12 bg-gray-900 border border-gray-700 rounded-2xl 
+                           text-gray-100 placeholder-gray-500
                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           disabled:bg-gray-100 disabled:cursor-not-allowed
+                           disabled:bg-gray-800 disabled:cursor-not-allowed
                            resize-none overflow-hidden"
                   style={{ minHeight: '52px', maxHeight: '200px' }}
                 />
@@ -200,8 +201,8 @@ function Chat() {
                 className="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white 
                          rounded-2xl font-medium transition-all duration-200
                          hover:from-blue-600 hover:to-blue-700 
-                         disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                         disabled:from-gray-700 disabled:to-gray-800 disabled:cursor-not-allowed
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-950
                          shadow-lg hover:shadow-xl
                          flex items-center gap-2"
               >
@@ -218,7 +219,7 @@ function Chat() {
               </button>
             </div>
             
-            <p className="text-xs text-gray-500 mt-2 text-center">
+            <p className="text-xs text-gray-400 mt-2 text-center">
               Claude peut faire des erreurs. Vérifiez les informations importantes.
             </p>
           </form>
