@@ -17,8 +17,8 @@ const ApiSettings = ({ onSettingsChange, initialSettings }) => {
   
   // 🔒 Limites pour usage verrouillé
   const LOCKED_LIMITS = {
-    temperature: { min: 0.5, max: 0.8 },
-    maxTokens: { min: 512, max: 1280 }
+    temperature: { min: 0.5, max: 1 },
+    maxTokens: { min: 512, max: 2048 }
   };
 
   const handleUnlock = () => {
@@ -53,7 +53,7 @@ const ApiSettings = ({ onSettingsChange, initialSettings }) => {
   };
 
   const getTemperatureLimits = () => {
-    return isLocked ? LOCKED_LIMITS.temperature : { min: 0, max: 2 };
+    return isLocked ? LOCKED_LIMITS.temperature : { min: 0, max: 1 };  // Claude API max = 1.0
   };
 
   const getMaxTokensLimits = () => {
@@ -190,7 +190,7 @@ const ApiSettings = ({ onSettingsChange, initialSettings }) => {
               />
               <div className="flex justify-between text-xs text-gray-500">
                 <span>{getTemperatureLimits().min} (Précis)</span>
-                <span>{((getTemperatureLimits().min + getTemperatureLimits().max) / 2).toFixed(1)} (Équilibré)</span>
+                <span>0.5 (Équilibré)</span>
                 <span>{getTemperatureLimits().max} (Créatif)</span>
               </div>
               {isLocked && (
@@ -264,9 +264,9 @@ const ApiSettings = ({ onSettingsChange, initialSettings }) => {
                   </button>
                   <button
                     onClick={() => {
-                      setTemperature(1.5);
+                      setTemperature(0.9);
                       setMaxTokens(3072);
-                      onSettingsChange({ temperature: 1.5, maxTokens: 3072 });
+                      onSettingsChange({ temperature: 0.9, maxTokens: 3072 });
                     }}
                     className="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded text-xs text-white transition-colors"
                   >

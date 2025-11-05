@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { sendMessageToClaude } from '../services/api';
 import ApiSettings from './ApiSettings';
 import SpellChecker from './SpellChecker';
+import MessageContent from './MessageContent';
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -159,9 +160,13 @@ const Chat = () => {
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">
-                      {message.content}
-                    </p>
+                    {/* Utiliser MessageContent pour le formatage Markdown */}
+                    <div className="text-sm leading-relaxed">
+                      <MessageContent 
+                        content={message.content} 
+                        isUser={message.role === 'user'}
+                      />
+                    </div>
                     <p className="text-xs mt-2 opacity-60">
                       {new Date(message.timestamp).toLocaleTimeString('fr-FR')}
                     </p>

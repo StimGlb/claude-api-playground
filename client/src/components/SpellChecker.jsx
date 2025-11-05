@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 /**
- * Composant de vérification orthographique
- * Utilise une API gratuite pour détecter les fautes
+ * Composant de vérification orthographique OBLIGATOIRE
+ * L'utilisateur DOIT corriger les erreurs avant d'envoyer
  */
 const SpellChecker = ({ text, onConfirm, onCancel }) => {
   const [isChecking, setIsChecking] = useState(false);
@@ -42,6 +42,15 @@ const SpellChecker = ({ text, onConfirm, onCancel }) => {
       detectedErrors.push({
         text: 'Doubles espaces',
         suggestion: 'Espaces multiples détectés',
+        type: 'minor'
+      });
+    }
+
+    // Vérifier majuscule en début de phrase
+    if (text.length > 0 && text[0] === text[0].toLowerCase() && /[a-zàâäéèêëïîôùûüÿæœç]/.test(text[0])) {
+      detectedErrors.push({
+        text: 'Pas de majuscule',
+        suggestion: 'Le texte devrait commencer par une majuscule',
         type: 'minor'
       });
     }
@@ -99,14 +108,26 @@ const SpellChecker = ({ text, onConfirm, onCancel }) => {
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-hidden border border-gray-700">
         {/* Header */}
-        <div className="bg-gradient-to-r from-yellow-600 to-orange-600 px-6 py-4">
+        <div className={`px-6 py-4 ${errors.length > 0 ? 'bg-gradient-to-r from-red-600 to-orange-600' : 'bg-gradient-to-r from-green-600 to-emerald-600'}`}>
           <div className="flex items-center gap-3">
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-            </svg>
+            {errors.length > 0 ? (
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            ) : (
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            )}
             <div>
-              <h3 className="text-lg font-semibold text-white">Vérification orthographique</h3>
-              <p className="text-sm text-white/80">Veuillez corriger les erreurs avant d'envoyer</p>
+              <h3 className="text-lg font-semibold text-white">
+                {errors.length > 0 ? '🚫 Correction Obligatoire' : '✅ Vérification Orthographique'}
+              </h3>
+              <p className="text-sm text-white/80">
+                {errors.length > 0 
+                  ? 'Veuillez corriger les erreurs avant de continuer' 
+                  : 'Votre message est prêt à être envoyé'}
+              </p>
             </div>
           </div>
         </div>
@@ -131,17 +152,20 @@ const SpellChecker = ({ text, onConfirm, onCancel }) => {
                 </svg>
               </div>
               <h4 className="text-lg font-semibold text-white mb-2">Aucune erreur détectée</h4>
-              <p className="text-gray-400 text-sm">Votre texte semble correct !</p>
+              <p className="text-gray-400 text-sm">Votre texte est correct, vous pouvez l'envoyer !</p>
             </div>
           ) : (
             <div className="space-y-3">
               <div className="flex items-center justify-between mb-4">
                 <h4 className="text-sm font-semibold text-white">
-                  {errors.length} problème{errors.length > 1 ? 's' : ''} détecté{errors.length > 1 ? 's' : ''}
+                  {errors.length} problème{errors.length > 1 ? 's' : ''} à corriger
                 </h4>
-                <span className="text-xs text-gray-400">
-                  Cliquez sur "Ignorer" pour envoyer quand même
-                </span>
+                <div className="flex items-center gap-2 px-3 py-1 bg-red-900/30 border border-red-700 rounded-full text-xs text-red-300">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clipRule="evenodd" />
+                  </svg>
+                  <span>Envoi bloqué</span>
+                </div>
               </div>
               
               {errors.map((error, index) => (
@@ -178,6 +202,19 @@ const SpellChecker = ({ text, onConfirm, onCancel }) => {
                   </div>
                 </div>
               ))}
+
+              {/* Message d'aide */}
+              <div className="mt-6 p-4 bg-blue-900/20 border border-blue-700 rounded-lg">
+                <div className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                  </svg>
+                  <div className="text-sm text-blue-200">
+                    <p className="font-semibold mb-1">💡 Astuce</p>
+                    <p>Cliquez sur "Corriger" pour modifier votre message et corrigez les erreurs signalées. Une fois corrigées, vous pourrez l'envoyer.</p>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -186,21 +223,37 @@ const SpellChecker = ({ text, onConfirm, onCancel }) => {
         <div className="bg-gray-900 px-6 py-4 flex items-center justify-between border-t border-gray-700">
           <button
             onClick={onCancel}
-            className="px-6 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors"
+            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
           >
-            ✏️ Corriger
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+            Corriger mon message
           </button>
-          <button
-            onClick={onConfirm}
-            disabled={isChecking}
-            className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-              errors.length > 0
-                ? 'bg-yellow-600 hover:bg-yellow-700 text-white'
-                : 'bg-green-600 hover:bg-green-700 text-white'
-            }`}
-          >
-            {errors.length > 0 ? '⚠️ Ignorer et envoyer' : '✅ Envoyer'}
-          </button>
+          
+          {errors.length === 0 ? (
+            <button
+              onClick={onConfirm}
+              disabled={isChecking}
+              className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              Envoyer le message
+            </button>
+          ) : (
+            <button
+              disabled
+              className="px-6 py-2 bg-gray-700 text-gray-500 rounded-lg font-medium cursor-not-allowed flex items-center gap-2"
+              title="Corrigez les erreurs avant d'envoyer"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clipRule="evenodd" />
+              </svg>
+              Envoi bloqué
+            </button>
+          )}
         </div>
       </div>
     </div>
