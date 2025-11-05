@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://opulent-sniffle-xjjj45rrpj73p6w4-3001.app.github.dev',
+        target: 'https://refactored-space-guide-qwwwx7vvvw5h4r9-5173.app.github.dev/',
         changeOrigin: true,
         secure: false
       }
