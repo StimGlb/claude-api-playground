@@ -124,7 +124,7 @@ const Chat = () => {
             </p>
           </div>
           
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3">git branch
             {/* Bouton effacer historique */}
             {messages.length > 0 && (
               <button
