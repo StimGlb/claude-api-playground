@@ -41,5 +41,3 @@ Précurseur de l'aviation moderne
 Méthodes d'observation scientifique
 Approche interdisciplinaire des sciences
 Léonard de Vinci reste un visionnaire intemporel qui a su allier art et science avec un génie créatif unique. Son œuvre continue de fasciner par sa modernité et sa diversité extraordinaire.
-
-Souhaitez-vous approfondir un aspect particulier de son œuvre ?
