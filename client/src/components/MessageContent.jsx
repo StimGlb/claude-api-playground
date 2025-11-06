@@ -7,6 +7,15 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
  * Composant pour afficher le contenu des messages avec formatage Markdown
  */
 const MessageContent = ({ content, isUser }) => {
+  // Remplacer les espaces avant ponctuation française par des espaces insécables
+  const formatFrenchPunctuation = (text) => {
+    return text
+      .replace(/\s+([?!:;»])/g, '\u00A0$1')  // Espace insécable avant ? ! : ; »
+      .replace(/([«])\s+/g, '$1\u00A0');      // Espace insécable après «
+  };
+
+  const formattedContent = formatFrenchPunctuation(content);
+
   return (
     <ReactMarkdown
       components={{
@@ -116,7 +125,7 @@ const MessageContent = ({ content, isUser }) => {
         ),
       }}
     >
-      {content}
+      {formattedContent}
     </ReactMarkdown>
   );
 };

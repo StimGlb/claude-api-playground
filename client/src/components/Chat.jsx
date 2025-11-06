@@ -5,7 +5,17 @@ import SpellChecker from './SpellChecker';
 import MessageContent from './MessageContent';
 
 const Chat = () => {
-  const [messages, setMessages] = useState([]);
+  // Charger les messages depuis localStorage au démarrage
+  const [messages, setMessages] = useState(() => {
+    try {
+      const saved = localStorage.getItem('chatHistory');
+      return saved ? JSON.parse(saved) : [];
+    } catch (error) {
+      console.error('Erreur chargement historique:', error);
+      return [];
+    }
+  });
+
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showSpellCheck, setShowSpellCheck] = useState(false);
@@ -15,6 +25,15 @@ const Chat = () => {
     maxTokens: 1024
   });
   const messagesEndRef = useRef(null);
+
+  // Sauvegarder automatiquement les messages dans localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('chatHistory', JSON.stringify(messages));
+    } catch (error) {
+      console.error('Erreur sauvegarde historique:', error);
+    }
+  }, [messages]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -76,12 +95,19 @@ const Chat = () => {
   const handleSpellCheckCancel = () => {
     setShowSpellCheck(false);
     setPendingMessage('');
-    // L'utilisateur peut corriger son texte
   };
 
   const handleSettingsChange = (newSettings) => {
     setApiSettings(newSettings);
     console.log('Nouveaux paramètres API:', newSettings);
+  };
+
+  // Effacer l'historique
+  const handleClearHistory = () => {
+    if (window.confirm('Voulez-vous vraiment effacer tout l\'historique de conversation ?')) {
+      setMessages([]);
+      localStorage.removeItem('chatHistory');
+    }
   };
 
   return (
@@ -98,11 +124,27 @@ const Chat = () => {
             </p>
           </div>
           
-          {/* Paramètres API */}
-          <ApiSettings 
-            onSettingsChange={handleSettingsChange}
-            initialSettings={apiSettings}
-          />
+          <div className="flex items-center gap-3">
+            {/* Bouton effacer historique */}
+            {messages.length > 0 && (
+              <button
+                onClick={handleClearHistory}
+                className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors duration-200 text-sm"
+                title="Effacer l'historique"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                <span className="hidden sm:inline">Effacer</span>
+              </button>
+            )}
+            
+            {/* Paramètres API */}
+            <ApiSettings 
+              onSettingsChange={handleSettingsChange}
+              initialSettings={apiSettings}
+            />
+          </div>
         </div>
       </div>
 
@@ -126,7 +168,7 @@ const Chat = () => {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span>Vérification orthographique automatique</span>
+                <span>Vérification orthographique • Historique sauvegardé</span>
               </div>
             </div>
           )}
@@ -160,15 +202,17 @@ const Chat = () => {
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    {/* Utiliser MessageContent pour le formatage Markdown */}
-                    <div className="text-sm leading-relaxed">
+                    <div className="text-base leading-relaxed">
                       <MessageContent 
                         content={message.content} 
                         isUser={message.role === 'user'}
                       />
                     </div>
-                    <p className="text-xs mt-2 opacity-60">
-                      {new Date(message.timestamp).toLocaleTimeString('fr-FR')}
+                    <p className="text-sm mt-2 opacity-60">
+                      {new Date(message.timestamp).toLocaleTimeString('fr-FR', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
                     </p>
                   </div>
                 </div>
@@ -207,7 +251,7 @@ const Chat = () => {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Écrivez votre message..."
               disabled={isLoading}
-              className="flex-1 px-6 py-4 bg-gray-900 text-white rounded-xl border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed placeholder-gray-500"
+              className="flex-1 px-6 py-4 bg-gray-900 text-white text-lg rounded-xl border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed placeholder-gray-500"
             />
             <button
               type="submit"

@@ -46,6 +46,15 @@ const SpellChecker = ({ text, onConfirm, onCancel }) => {
       });
     }
 
+    // Vérifier ponctuation
+    if (text.match(/\s[,;]/g)) {
+      detectedErrors.push({
+        text: 'Espaces avant ponctuation',
+        suggestion: 'Pas d\'espace avant , et ;',
+        type: 'minor'
+      });
+    }
+
     // Vérifier majuscule en début de phrase
     if (text.length > 0 && text[0] === text[0].toLowerCase() && /[a-zàâäéèêëïîôùûüÿæœç]/.test(text[0])) {
       detectedErrors.push({
@@ -103,6 +112,17 @@ const SpellChecker = ({ text, onConfirm, onCancel }) => {
   React.useEffect(() => {
     checkSpelling();
   }, []);
+
+  // Envoyer automatiquement si aucune erreur détectée
+  React.useEffect(() => {
+    if (!isChecking && errors.length === 0) {
+      // Petit délai pour que l'utilisateur voit "Aucune erreur" (optionnel)
+      const timer = setTimeout(() => {
+        onConfirm();
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [isChecking, errors, onConfirm]);
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -225,10 +245,7 @@ const SpellChecker = ({ text, onConfirm, onCancel }) => {
             onClick={onCancel}
             className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-            </svg>
-            Corriger mon message
+            ✏️ Corriger mon message
           </button>
           
           {errors.length === 0 ? (
@@ -237,10 +254,7 @@ const SpellChecker = ({ text, onConfirm, onCancel }) => {
               disabled={isChecking}
               className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              Envoyer le message
+              ✅ Envoyer le message
             </button>
           ) : (
             <button
@@ -248,10 +262,7 @@ const SpellChecker = ({ text, onConfirm, onCancel }) => {
               className="px-6 py-2 bg-gray-700 text-gray-500 rounded-lg font-medium cursor-not-allowed flex items-center gap-2"
               title="Corrigez les erreurs avant d'envoyer"
             >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clipRule="evenodd" />
-              </svg>
-              Envoi bloqué
+              🚫 Envoi bloqué
             </button>
           )}
         </div>
