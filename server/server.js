@@ -65,6 +65,7 @@ app.post('/api/chat', async (req, res) => {
       model: 'claude-sonnet-4-20250514',
       max_tokens: validatedMaxTokens,
       temperature: validatedTemperature,
+      system: "Quand tu crées des tableaux, utilise TOUJOURS le format Markdown avec pipes | et tirets -. Exemple : | Col1 | Col2 |\n|------|------|\n| A | B |",
       messages: [
         {
           role: 'user',

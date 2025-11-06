@@ -113,15 +113,24 @@ const MessageContent = ({ content, isUser }) => {
         
         // Tableaux
         table: ({ node, ...props }) => (
-          <div className="overflow-x-auto my-3">
-            <table className="min-w-full border-collapse border border-gray-600" {...props} />
+          <div className="overflow-x-auto my-4">
+            <table className="min-w-full border-collapse" {...props} />
           </div>
         ),
+        thead: ({ node, ...props }) => (
+          <thead className="bg-gray-700/50" {...props} />
+        ),
+        tbody: ({ node, ...props }) => (
+          <tbody {...props} />
+        ),
+        tr: ({ node, ...props }) => (
+          <tr className="border-b border-gray-600" {...props} />
+        ),
         th: ({ node, ...props }) => (
-          <th className="border border-gray-600 px-3 py-2 bg-gray-700 font-bold text-left" {...props} />
+          <th className="border border-gray-600 px-4 py-2 text-left font-bold text-white bg-gray-700" {...props} />
         ),
         td: ({ node, ...props }) => (
-          <td className="border border-gray-600 px-3 py-2" {...props} />
+          <td className="border border-gray-600 px-4 py-2 text-gray-200" {...props} />
         ),
       }}
     >
